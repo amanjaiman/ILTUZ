@@ -1,0 +1,5 @@
+wget
+pandas
+OpenNMT-py
+subword-nmt
+sacrebleu
