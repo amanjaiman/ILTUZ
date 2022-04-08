@@ -1,9 +1,11 @@
 import os
 import pandas as pd
+import sys
 
 os.chdir("./data/pmindia")
 
-def create_split_data(lang1, lang2, train_N, test_N):
+def create_datasets(args):
+    lang1, lang2, train_N, test_N = args
     languages = [lang1, lang2]
     
     path = "../"+'_'.join(languages)
@@ -44,3 +46,10 @@ def create_split_data(lang1, lang2, train_N, test_N):
             
             with open(path+str(k)+"/data."+lang+"2en", "w+") as f:
                 f.write('\n'.join(ind))
+                
+if __name__ == "__main__":
+    if len(sys.argv) != 5:
+        print("Usage: create_datasets.py <lang1> <lang2> <train_N> <test_N>")
+        sys.exit(1)
+    
+    create_datasets(sys.argv[1:])
