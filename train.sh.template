@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Learning BPE"
+cat train/* > bpe/data.lang
+subword-nmt learn-bpe -s 10000 < bpe/data.lang > bpe/subwords.bpe
+
+echo "Building Vocab"
+onmt_build_vocab -config zsnmt.yaml -n_sample -1
+
+echo "Training"
+onmt_train -config zsnmt.yaml
+
+# TODO: check if the files exist, remove if they do

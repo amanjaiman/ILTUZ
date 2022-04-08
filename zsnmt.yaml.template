@@ -1,0 +1,89 @@
+#mnmt_template.yaml
+save_data: out
+
+# Corpus opts:
+data:
+    en_%SRC%:
+        path_src: train/data.en2%SRC%
+        path_tgt: train/data.%SRC%2en
+        transforms: [bpe, prefix]
+        src_prefix: "<en2%SRC%> "
+        tgt_prefix: ""
+    %SRC%_en:
+        path_src: train/data.%SRC%2en
+        path_tgt: train/data.en2%SRC%
+        transforms: [bpe, prefix]
+        src_prefix: "<%SRC%2en> "
+        tgt_prefix: ""
+    en_%TGT%:
+        path_src: train/data.en2%TGT%
+        path_tgt: train/data.%TGT%2en
+        transforms: [bpe, prefix]
+        src_prefix: "<en2%TGT%> "
+        tgt_prefix: ""
+    %TGT%_en:
+        path_src: train/data.%TGT%2en
+        path_tgt: train/data.en2%TGT%
+        transforms: [bpe, prefix]
+        src_prefix: "<%TGT%2en> "
+        tgt_prefix: ""
+
+### Transform related opts:
+#### Subword
+src_subword_model: bpe/subwords.bpe
+tgt_subword_model: bpe/subwords.bpe
+
+subword_nbest: 1
+subword_alpha: 0.0
+
+# silently ignore empty lines in the data
+skip_empty_level: silent
+
+
+# Vocab opts
+### vocab:
+src_vocab: out/vocab.src
+tgt_vocab: out/vocab.src
+src_vocab_size: 32000
+tgt_vocab_size: 32000
+vocab_size_multiple: 8
+src_words_min_frequency: 1
+tgt_words_min_frequency: 1
+share_vocab: True
+
+
+# # Model training parameters
+
+# General opts
+save_model: out/model
+keep_checkpoint: 50
+save_checkpoint_steps: 5000
+#average_decay: 0.0005
+seed: 1234
+report_every: 100
+train_steps: 10000
+valid_steps: 5000
+
+# Batching
+batch_type: "sents"
+batch_size: 64
+gpu_ranks: [0]
+
+# Optimization
+model_dtype: "fp32"
+optim: "adam"
+learning_rate: 0.001
+learning_rate_decay: 0.5
+start_decay_steps: 50000
+decay_steps: 10000
+
+# Model
+model_task: seq2seq
+encoder_type: brnn
+decoder_type: rnn
+layers: 2
+rnn_size: 500
+input_feed: 1
+global_attention: general
+dropout_steps: [0]
+dropout: [0.3]

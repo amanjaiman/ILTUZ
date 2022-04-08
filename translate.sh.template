@@ -1,0 +1,32 @@
+#!/bin/bash
+
+SRC=src2tgt
+TGT=tgt2src
+
+echo "Translating from ""$SRC"
+
+echo "Applying BPE and adding prefix"
+# Apply BPE
+subword-nmt apply-bpe --codes=bpe/subwords.bpe < test/data.$SRC > bpe/temp.$SRC.bpe
+subword-nmt apply-bpe --codes=bpe/subwords.bpe < test/data.$TGT > bpe/data.$TGT.bpe
+# play around with some setting about case-sensitivity
+
+# Add prefix just SRC
+cat bpe/temp.$SRC.bpe | sed -E 's/^/<mni2hi> /' > bpe/data.$SRC.bpe
+rm bpe/temp.$SRC.bpe
+
+echo "Translating"
+# Translate
+onmt_translate -gpu 0 \
+-batch_size 64 \
+-batch_type sents \
+-beam_size 5 \
+-model out/model_step_10000.pt \
+-src bpe/data.$SRC.bpe \
+-tgt bpe/data.$TGT.bpe \
+-output out/test.$SRC.hyp_10000.bpe
+
+cat out/test.$SRC.hyp_10000.bpe | sed -E 's/(@@ )|(@@ ?$)//g' > out/predictions.$SRC
+
+echo "Computing BLEU Score"
+sacrebleu test/data.$TGT < out/predictions.$SRC 
