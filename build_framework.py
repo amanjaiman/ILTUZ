@@ -49,6 +49,6 @@ if __name__ == "__main__":
         print("Usage: build_framework.py <lang1> <lang2>")
         sys.exit(1)
     
-    main(sys.argv[1:])
+    main(sys.argv[1], sys.argv[2])
 
 # TODO: make callable from cmd with args
