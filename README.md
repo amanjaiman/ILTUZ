@@ -17,7 +17,7 @@
  3. Create datasets for your language pair
   
     `
-    python create_datasets.py hi mni
+    python create_datasets.py hi mni 5000 1000
     `
  
  4. Go into the new directory that was created

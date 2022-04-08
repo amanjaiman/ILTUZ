@@ -6,6 +6,9 @@ os.chdir("./data/pmindia")
 
 def create_datasets(args):
     lang1, lang2, train_N, test_N = args
+    train_N = int(train_N)
+    test_N = int(test_N)
+    
     languages = [lang1, lang2]
     
     path = "../"+'_'.join(languages)
