@@ -3,6 +3,7 @@ import sys
 import wget
 
 def main(langs):
+    os.mkdir('data')
     os.chdir("./data")
     os.mkdir("pmindia")
     os.chdir("./pmindia")
@@ -18,7 +19,7 @@ def main(langs):
         
 if __name__ == "__main__":
     if len(sys.argv) < 2 or len(sys.argv) > 14:
-        print("Usage: download_pmindia.py <lang1> <lang2> ... <langN>")
+        print("Usage: download_pmindia.py all | <lang1> <lang2> ... <langN>")
         sys.exit(1)
     
     if sys.argv[1] == "all":
