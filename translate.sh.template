@@ -29,4 +29,34 @@ onmt_translate -gpu 0 \
 cat out/test.$SRC.hyp_10000.bpe | sed -E 's/(@@ )|(@@ ?$)//g' > out/predictions.$SRC
 
 echo "Computing BLEU Score"
-sacrebleu test/data.$TGT < out/predictions.$SRC 
+sacrebleu test/data.$TGT < out/predictions.$SRC
+
+sleep 2
+
+echo "Translating from ""$TGT"
+
+echo "Applying BPE and adding prefix"
+# Apply BPE
+subword-nmt apply-bpe --codes=bpe/subwords.bpe < test/data.$TGT > bpe/temp.$TGT.bpe
+subword-nmt apply-bpe --codes=bpe/subwords.bpe < test/data.$SRC > bpe/data.$SRC.bpe
+# play around with some setting about case-sensitivity
+
+# Add prefix just SRC
+cat bpe/temp.$TGT.bpe | sed -E 's/^/<mni2hi> /' > bpe/data.$TGT.bpe
+rm bpe/temp.$TGT.bpe
+
+echo "Translating"
+# Translate
+onmt_translate -gpu 0 \
+-batch_size 64 \
+-batch_type sents \
+-beam_size 5 \
+-model out/model_step_10000.pt \
+-src bpe/data.$TGT.bpe \
+-tgt bpe/data.$SRC.bpe \
+-output out/test.$TGT.hyp_10000.bpe
+
+cat out/test.$TGT.hyp_10000.bpe | sed -E 's/(@@ )|(@@ ?$)//g' > out/predictions.$TGT
+
+echo "Computing BLEU Score"
+sacrebleu test/data.$SRC < out/predictions.$TGT
