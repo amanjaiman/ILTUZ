@@ -2,16 +2,16 @@ import os
 import pandas as pd
 import sys
 
-os.chdir("./data/pmindia")
-
 def create_datasets(args):
+    os.chdir("./data/pmindia")
+    
     lang1, lang2, train_N, test_N = args
     train_N = int(train_N)
     test_N = int(test_N)
     
     languages = [lang1, lang2]
     
-    path = "../"+'_'.join(languages)
+    path = "../"+'_'.join(languages)+"/"
     
     lang_dfs = {}
     for lang in languages:
