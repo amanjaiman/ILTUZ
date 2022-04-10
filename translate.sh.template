@@ -12,7 +12,7 @@ subword-nmt apply-bpe --codes=bpe/subwords.bpe < test/data.$TGT > bpe/data.$TGT.
 # play around with some setting about case-sensitivity
 
 # Add prefix just SRC
-cat bpe/temp.$SRC.bpe | sed -E 's/^/<mni2hi> /' > bpe/data.$SRC.bpe
+cat bpe/temp.$SRC.bpe | sed -E 's/^/<src2tgt> /' > bpe/data.$SRC.bpe
 rm bpe/temp.$SRC.bpe
 
 echo "Translating"
@@ -42,7 +42,7 @@ subword-nmt apply-bpe --codes=bpe/subwords.bpe < test/data.$SRC > bpe/data.$SRC.
 # play around with some setting about case-sensitivity
 
 # Add prefix just SRC
-cat bpe/temp.$TGT.bpe | sed -E 's/^/<mni2hi> /' > bpe/data.$TGT.bpe
+cat bpe/temp.$TGT.bpe | sed -E 's/^/<tgt2src> /' > bpe/data.$TGT.bpe
 rm bpe/temp.$TGT.bpe
 
 echo "Translating"

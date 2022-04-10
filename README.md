@@ -9,6 +9,10 @@
     `
     python download_pmindia.py all
     `
+
+    *Note: In case this doesn't work because the statmt website is down, I have also made the data available here: [drive link to zip]*
+    *Download to ./data/pmindia then run `unzip pmindia.zip`*
+    
  2. Generate necessary directories and files for your language pair
  
     `
