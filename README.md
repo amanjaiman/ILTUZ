@@ -2,6 +2,8 @@
  
  ## Description
  Todo
+ 
+ Currently broken for local work, refer to the [Google Colab notebook](https://colab.research.google.com/drive/13Htu7-8Bz0hLnkiJ3givQfTJCgpi5RCk?usp=sharing) for usage.
 
  ## Usage
  1. Download the PMIndia Dataset
